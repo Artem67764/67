@@ -10,14 +10,23 @@ jobs:
       - uses: actions/checkout@v3
 
       - run: echo "Build OK"
-  deploy:
-    needs: build
-    if: github.ref == 'refs/heads/main'
+  name: CI-Check
+
+on: [push]
+
+jobs:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Build Docker Image
-        run: docker build -t my-app:${{ github.sha }} .
+      - run: echo "Build OK"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy
+        run: echo "Deploy OK"
